@@ -31,7 +31,7 @@ export function HomeScreen(props: {
     let count = item.children.length;
     if (item.fatherName.trim() && item.fatherAlive) count++;
     if (item.motherName.trim() && item.motherAlive) count++;
-    if (item.guardianName.trim()) count++;
+    if (item.headOfHousehold.trim()) count++;
     return sum + count;
   }, 0);
   const assistanceCount = props.households.filter((item) => item.assistanceNeeded.length > 0).length;

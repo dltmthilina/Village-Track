@@ -197,7 +197,7 @@ export async function exportHouseholdsCsv(): Promise<string> {
     "mother_alive",
     "mother_occupation",
     "mother_monthly_income",
-    "guardian_name",
+    "head_of_household",
     "other_income_sources",
     "land_details",
     "property_details",
@@ -210,7 +210,7 @@ export async function exportHouseholdsCsv(): Promise<string> {
     "child_employment_status",
     "child_married",
     "notes",
-    "updated_at"
+    "updated_at",
   ];
 
   const rows = households.flatMap((household) => {
@@ -228,7 +228,7 @@ export async function exportHouseholdsCsv(): Promise<string> {
       household.motherAlive ? "yes" : "no",
       household.motherOccupation,
       household.motherMonthlyIncome,
-      household.guardianName,
+      household.headOfHousehold,
       household.otherIncomeSources,
       household.landDetails,
       household.propertyDetails,
@@ -241,7 +241,7 @@ export async function exportHouseholdsCsv(): Promise<string> {
       child?.employmentStatus ?? "",
       child ? (child.married ? "yes" : "no") : "",
       household.notes,
-      household.updatedAt
+      household.updatedAt,
     ]);
   });
 
@@ -263,14 +263,14 @@ async function upsertImportedHousehold(household: Household) {
     motherAlive: household.motherAlive,
     motherOccupation: household.motherOccupation,
     motherMonthlyIncome: String(household.motherMonthlyIncome),
-    guardianName: household.guardianName,
+    headOfHousehold: household.headOfHousehold,
     otherIncomeSources: household.otherIncomeSources,
     landDetails: household.landDetails,
     propertyDetails: household.propertyDetails,
     permanentDisabilityDetails: household.permanentDisabilityDetails,
     assistanceNeeded: household.assistanceNeeded,
     notes: household.notes,
-    children: household.children
+    children: household.children,
   };
 
   const row = await existing;
@@ -295,14 +295,14 @@ function draftToValues(draft: HouseholdDraft, _timestamp: string) {
     motherAlive: draft.motherAlive ? 1 : 0,
     motherOccupation: draft.motherOccupation.trim(),
     motherMonthlyIncome: normalizeIncome(draft.motherMonthlyIncome),
-    guardianName: draft.guardianName.trim(),
+    guardianName: draft.headOfHousehold.trim(),
     otherIncomeSources: draft.otherIncomeSources.trim(),
     landDetails: draft.landDetails.trim(),
     propertyDetails: draft.propertyDetails.trim(),
     permanentDisabilityDetails: draft.permanentDisabilityDetails.trim(),
     assistanceNeeded: JSON.stringify(draft.assistanceNeeded),
     notes: draft.notes.trim(),
-    children: JSON.stringify(draft.children)
+    children: JSON.stringify(draft.children),
   };
 }
 
@@ -321,7 +321,7 @@ function rowToHousehold(row: HouseholdRow): Household {
     motherAlive: Boolean(row.mother_alive),
     motherOccupation: row.mother_occupation,
     motherMonthlyIncome: row.mother_monthly_income,
-    guardianName: row.guardian_name,
+    headOfHousehold: row.guardian_name,
     otherIncomeSources: row.other_income_sources,
     landDetails: row.land_details,
     propertyDetails: row.property_details,
@@ -330,7 +330,7 @@ function rowToHousehold(row: HouseholdRow): Household {
     notes: row.notes,
     children: parseJson<ChildRecord[]>(row.children, []),
     createdAt: row.created_at,
-    updatedAt: row.updated_at
+    updatedAt: row.updated_at,
   };
 }
 

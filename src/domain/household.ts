@@ -22,7 +22,7 @@ export type HouseholdDraft = {
   motherAlive: boolean;
   motherOccupation: string;
   motherMonthlyIncome: string;
-  guardianName: string;
+  headOfHousehold: string;
   otherIncomeSources: string;
   landDetails: string;
   propertyDetails: string;
@@ -61,14 +61,14 @@ export function emptyHouseholdDraft(): HouseholdDraft {
     motherAlive: true,
     motherOccupation: "",
     motherMonthlyIncome: "",
-    guardianName: "",
+    headOfHousehold: "",
     otherIncomeSources: "",
     landDetails: "",
     propertyDetails: "",
     permanentDisabilityDetails: "",
     assistanceNeeded: [],
     notes: "",
-    children: []
+    children: [],
   };
 }
 

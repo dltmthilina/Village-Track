@@ -65,8 +65,8 @@ export default function App() {
         item.address,
         item.fatherName,
         item.motherName,
-        item.guardianName,
-        item.phoneNumber
+        item.headOfHousehold,
+        item.phoneNumber,
       ]
         .join(" ")
         .toLowerCase();
@@ -95,14 +95,14 @@ export default function App() {
       motherAlive: household.motherAlive,
       motherOccupation: household.motherOccupation,
       motherMonthlyIncome: String(household.motherMonthlyIncome || ""),
-      guardianName: household.guardianName,
+      headOfHousehold: household.headOfHousehold,
       otherIncomeSources: household.otherIncomeSources,
       landDetails: household.landDetails,
       propertyDetails: household.propertyDetails,
       permanentDisabilityDetails: household.permanentDisabilityDetails,
       assistanceNeeded: household.assistanceNeeded,
       notes: household.notes,
-      children: household.children
+      children: household.children,
     });
     setScreen("form");
   };
