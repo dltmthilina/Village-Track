@@ -6,6 +6,12 @@ import { Stat } from "../ui/Stat";
 import { Badge } from "../ui/Badge";
 import { ActionButton } from "../ui/ActionButton";
 import { sharedStyles } from "../sharedStyles";
+import { ChildRecord } from "../../domain/household";
+
+function isChild(c: ChildRecord): boolean {
+  const age = parseInt(c.age);
+  return !Number.isFinite(age) || age <= 18;
+}
 
 export function HomeScreen(props: {
   households: Household[];
@@ -17,13 +23,26 @@ export function HomeScreen(props: {
   onExport: () => void;
   onDrive: () => void;
 }) {
-  const totalChildren = props.households.reduce((sum, item) => sum + item.children.length, 0);
+  const totalChildren = props.households.reduce(
+    (sum, item) => sum + item.children.filter(isChild).length,
+    0
+  );
+  const totalPersons = props.households.reduce((sum, item) => {
+    let count = item.children.length;
+    if (item.fatherName.trim() && item.fatherAlive) count++;
+    if (item.motherName.trim() && item.motherAlive) count++;
+    if (item.guardianName.trim()) count++;
+    return sum + count;
+  }, 0);
   const assistanceCount = props.households.filter((item) => item.assistanceNeeded.length > 0).length;
 
   return (
     <ScrollView contentContainerStyle={sharedStyles.page}>
       <View style={styles.statsRow}>
         <Stat label="Families" value={String(props.households.length)} />
+        <Stat label="Persons" value={String(totalPersons)} />
+      </View>
+      <View style={styles.statsRow}>
         <Stat label="Children" value={String(totalChildren)} />
         <Stat label="Need aid" value={String(assistanceCount)} />
       </View>
@@ -64,7 +83,7 @@ export function HomeScreen(props: {
             <Text style={styles.cardLine}>Father: {household.fatherName || "Not recorded"}</Text>
             <Text style={styles.cardLine}>Mother: {household.motherName || "Not recorded"}</Text>
             <View style={styles.badgeRow}>
-              <Badge label={`${household.children.length} children`} />
+              <Badge label={`${household.children.filter(isChild).length} children`} />
               {household.permanentDisabilityDetails ? <Badge label="Disability" tone="warning" /> : null}
               {household.assistanceNeeded.map((item) => (
                 <Badge key={item} label={item} tone="success" />
