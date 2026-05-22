@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "VillageTrack",
+    "slug": "village-track",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "villagetrack",
+    "splash": {
+      "backgroundColor": "#f7faf7"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.villagetrack.app"
+    },
+    "extra": {
+      "googleOAuth": {
+        "expoClientId": "",
+        "iosClientId": "",
+        "androidClientId": "",
+        "webClientId": ""
+      }
+    }
+  }
+}
